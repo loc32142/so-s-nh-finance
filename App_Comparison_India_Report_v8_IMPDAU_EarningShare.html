@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>India · App Monetization Comparison · Quality Metric Panels</title>
+<title>India · App Monetization Comparison · Hierarchical Filters</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#0b1017;--card:#141b24;--card2:#101721;--bd:#283444;--fg:#e9eef5;--mut:#91a0b2;--blue:#58a6ff;--orange:#e8a24b;--green:#4fd080;--red:#ff6b6b;--purple:#b895ff;--cyan:#50cbd5}
@@ -24,9 +24,13 @@
 @media(max-width:1050px){.controls{grid-template-columns:1fr 1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.qualityCards{grid-template-columns:1fr 1fr}}@media(max-width:760px){.wrap{padding:14px 12px 45px}.top{margin:0 -12px 18px;padding:12px}.controls,.grid,.kpis,.qualityCards{grid-template-columns:1fr}h1{font-size:20px}.pair{grid-template-columns:1fr 1fr}}
 
 .metricSection{margin-top:28px}.metricHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.metricHead h2{margin:0;flex:1}.metricHeadline{background:var(--card);border:1px solid var(--bd);border-radius:9px;padding:9px 12px;font-size:12px;color:var(--mut);min-width:320px}.metricHeadline b{color:var(--fg)}
-.metricToolbar{display:grid;grid-template-columns:minmax(145px,.8fr) minmax(190px,1.2fr) minmax(130px,.65fr);gap:9px;margin:10px 0 12px}.metricToolbar .ctrl{background:var(--card2)}
-.threegrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:14px}.threegrid .chartbox{height:320px}.threegrid canvas{max-height:320px}.metricSub{font-size:11px;color:var(--mut);margin-top:3px}.effectHint{display:inline-block;margin-left:6px;padding:1px 7px;border:1px solid var(--bd);border-radius:10px;font-size:10px;color:var(--mut)}
-@media(max-width:1180px){.threegrid{grid-template-columns:1fr 1fr}.threegrid .card:last-child{grid-column:1/-1}}@media(max-width:760px){.metricToolbar,.threegrid{grid-template-columns:1fr}.threegrid .card:last-child{grid-column:auto}.metricHeadline{min-width:0;width:100%}}
+.metricToolbar{display:grid;grid-template-columns:minmax(170px,1fr) minmax(220px,1.3fr) minmax(130px,.7fr);gap:9px;margin:10px 0 12px}.metricToolbar select:disabled{opacity:.45;cursor:not-allowed}.metricToolbar .ctrl{background:var(--card2)}
+.threegrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.threegrid .chartbox{height:320px}.threegrid canvas{max-height:320px}.metricSub{font-size:11px;color:var(--mut);margin-top:3px}.effectHint{display:inline-block;margin-left:6px;padding:1px 7px;border:1px solid var(--bd);border-radius:10px;font-size:10px;color:var(--mut)}
+@media(max-width:980px){.threegrid{grid-template-columns:1fr}}@media(max-width:760px){.metricToolbar,.threegrid{grid-template-columns:1fr}.metricHeadline{min-width:0;width:100%}}
+
+
+.impToolbar{display:grid;grid-template-columns:minmax(200px,1fr) minmax(220px,1.15fr);gap:10px;margin:12px 0}.layerTag{display:inline-block;padding:2px 8px;border-radius:10px;border:1px solid var(--bd);font-size:10.5px;font-weight:700}.layerTag.overall{color:var(--purple);background:#211a34}.layerTag.format{color:var(--cyan);background:#13272b}.layerTag.unit{color:var(--amber);background:#2a2413}.indentUnit{padding-left:22px!important}.shareBox{min-width:128px}.shareMain{display:flex;justify-content:space-between;gap:8px;align-items:center}.shareTrack2{height:7px;background:#0d141d;border:1px solid var(--bd);border-radius:5px;overflow:hidden;margin-top:4px}.shareFillA{height:100%;background:var(--blue)}.shareFillB{height:100%;background:var(--orange)}.shareSub{font-size:10px;color:var(--mut);margin-top:2px}.impInsight{background:linear-gradient(135deg,#161f2a,#141b24);border:1px solid var(--bd);border-left:3px solid var(--purple);border-radius:9px;padding:13px 15px;margin:12px 0;line-height:1.65}.impTable th:nth-child(1),.impTable td:nth-child(1),.impTable th:nth-child(2),.impTable td:nth-child(2){text-align:left}.impTable td{vertical-align:top}.shareDelta{font-weight:650}
+@media(max-width:760px){.impToolbar{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -52,66 +56,80 @@
   <div class="note">DAU được dedup theo ngày bằng giá trị DAU cấp app xuất hiện trên các dòng ad unit; ARPDAU/IMPDAU được tính lại từ tổng tử số chia tổng DAU, không lấy trung bình cột rate.</div>
 </div>
 
-<h2>2 · Quality metrics — mỗi metric có Overall · Breakdown · Effect</h2>
-<div class="note" style="margin-bottom:14px">Các trục giá trị được cố định bắt đầu từ <b>0</b> để giảm visual bias. Không dùng slicer để đổi metric. Mỗi metric có 3 chart riêng: <b>Overall theo ngày</b>, <b>Breakdown theo Ad Format/Ad Unit</b>, và <b>Effect B − A</b>. Slicer trong từng section chỉ điều khiển Breakdown + Effect của metric đó.</div>
+<h2>2 · Quality metrics — mỗi metric có Overall · Breakdown</h2>
+<div class="note" style="margin-bottom:14px">Các trục giá trị được cố định bắt đầu từ <b>0</b> để giảm visual bias. Mỗi metric có 2 chart riêng: <b>Overall theo ngày</b> và <b>Breakdown</b>. Breakdown dùng filter phân cấp: <b>chọn Ad Format trước → sau đó mới chọn Ad Unit</b>.</div>
 
 <section class="metricSection" id="section_ecpm">
   <div class="metricHead"><h2>2.1 · eCPM</h2><div class="metricHeadline" id="ecpmHeadline"></div></div>
   <div class="metricToolbar">
-    <div class="ctrl"><label>Breakdown by</label><select id="ecpmLevelSel"><option value="format">Ad Format</option><option value="unit">Ad Unit</option></select></div>
-    <div class="ctrl"><label id="ecpmSegmentLabel">Ad Format slicer</label><select id="ecpmSegmentSel"><option value="__ALL__">All Ad Formats</option></select></div>
-    <div class="ctrl"><label>Breakdown rows</label><select id="ecpmTopNSel"><option value="6">Top 6 effect</option><option value="8" selected>Top 8 effect</option><option value="12">Top 12 effect</option><option value="999">All</option></select></div>
+    <div class="ctrl"><label>1 · Ad Format</label><select id="ecpmFormatSel"><option value="__ALL__">All Ad Formats</option></select></div>
+    <div class="ctrl"><label>2 · Ad Unit</label><select id="ecpmUnitSel" disabled><option value="__ALL__">Chọn Ad Format trước</option></select></div>
+    <div class="ctrl"><label>Breakdown rows</label><select id="ecpmTopNSel"><option value="6">Top 6</option><option value="8" selected>Top 8</option><option value="12">Top 12</option><option value="999">All</option></select></div>
   </div>
   <div class="threegrid">
     <div class="card"><h3>eCPM overall theo ngày</h3><div class="chartbox"><canvas id="ecpmOverall"></canvas></div><div class="note">Doanh thu trên 1.000 impressions. Overall luôn dùng toàn bộ traffic trong cửa sổ đang chọn; rê chuột để xem số chính xác.</div></div>
-    <div class="card"><h3 id="ecpmBreakdownTitle">eCPM breakdown</h3><div class="chartbox"><canvas id="ecpmBreakdown"></canvas></div><div class="note" id="ecpmBreakdownNote">So sánh App A vs App B theo dimension đang chọn.</div></div>
-    <div class="card"><h3 id="ecpmEffectTitle">eCPM effect · B − A <span class="effectHint">0 = ngang nhau</span></h3><div class="chartbox"><canvas id="ecpmEffect"></canvas></div><div class="note" id="ecpmEffectNote">Cột dương = EMI Calculator cao hơn; cột âm = thấp hơn. Với rate, effect là chênh lệch điểm % (percentage points).</div></div>
+    <div class="card"><h3 id="ecpmBreakdownTitle">eCPM breakdown · Ad Format</h3><div class="chartbox"><canvas id="ecpmBreakdown"></canvas></div><div class="note" id="ecpmBreakdownNote">Mặc định so sánh theo Ad Format. Chọn một format để mở slicer Ad Unit tương ứng.</div></div>
   </div>
 </section>
 
 <section class="metricSection" id="section_match">
   <div class="metricHead"><h2>2.2 · Match Rate</h2><div class="metricHeadline" id="matchHeadline"></div></div>
   <div class="metricToolbar">
-    <div class="ctrl"><label>Breakdown by</label><select id="matchLevelSel"><option value="format">Ad Format</option><option value="unit">Ad Unit</option></select></div>
-    <div class="ctrl"><label id="matchSegmentLabel">Ad Format slicer</label><select id="matchSegmentSel"><option value="__ALL__">All Ad Formats</option></select></div>
-    <div class="ctrl"><label>Breakdown rows</label><select id="matchTopNSel"><option value="6">Top 6 effect</option><option value="8" selected>Top 8 effect</option><option value="12">Top 12 effect</option><option value="999">All</option></select></div>
+    <div class="ctrl"><label>1 · Ad Format</label><select id="matchFormatSel"><option value="__ALL__">All Ad Formats</option></select></div>
+    <div class="ctrl"><label>2 · Ad Unit</label><select id="matchUnitSel" disabled><option value="__ALL__">Chọn Ad Format trước</option></select></div>
+    <div class="ctrl"><label>Breakdown rows</label><select id="matchTopNSel"><option value="6">Top 6</option><option value="8" selected>Top 8</option><option value="12">Top 12</option><option value="999">All</option></select></div>
   </div>
   <div class="threegrid">
     <div class="card"><h3>Match Rate overall theo ngày</h3><div class="chartbox"><canvas id="matchOverall"></canvas></div><div class="note">Tỷ lệ matched requests / ad requests. Overall luôn dùng toàn bộ traffic trong cửa sổ đang chọn; rê chuột để xem số chính xác.</div></div>
-    <div class="card"><h3 id="matchBreakdownTitle">Match Rate breakdown</h3><div class="chartbox"><canvas id="matchBreakdown"></canvas></div><div class="note" id="matchBreakdownNote">So sánh App A vs App B theo dimension đang chọn.</div></div>
-    <div class="card"><h3 id="matchEffectTitle">Match Rate effect · B − A <span class="effectHint">0 = ngang nhau</span></h3><div class="chartbox"><canvas id="matchEffect"></canvas></div><div class="note" id="matchEffectNote">Cột dương = EMI Calculator cao hơn; cột âm = thấp hơn. Với rate, effect là chênh lệch điểm % (percentage points).</div></div>
+    <div class="card"><h3 id="matchBreakdownTitle">Match Rate breakdown · Ad Format</h3><div class="chartbox"><canvas id="matchBreakdown"></canvas></div><div class="note" id="matchBreakdownNote">Mặc định so sánh theo Ad Format. Chọn một format để mở slicer Ad Unit tương ứng.</div></div>
   </div>
 </section>
 
 <section class="metricSection" id="section_show">
   <div class="metricHead"><h2>2.3 · Show Rate</h2><div class="metricHeadline" id="showHeadline"></div></div>
   <div class="metricToolbar">
-    <div class="ctrl"><label>Breakdown by</label><select id="showLevelSel"><option value="format">Ad Format</option><option value="unit">Ad Unit</option></select></div>
-    <div class="ctrl"><label id="showSegmentLabel">Ad Format slicer</label><select id="showSegmentSel"><option value="__ALL__">All Ad Formats</option></select></div>
-    <div class="ctrl"><label>Breakdown rows</label><select id="showTopNSel"><option value="6">Top 6 effect</option><option value="8" selected>Top 8 effect</option><option value="12">Top 12 effect</option><option value="999">All</option></select></div>
+    <div class="ctrl"><label>1 · Ad Format</label><select id="showFormatSel"><option value="__ALL__">All Ad Formats</option></select></div>
+    <div class="ctrl"><label>2 · Ad Unit</label><select id="showUnitSel" disabled><option value="__ALL__">Chọn Ad Format trước</option></select></div>
+    <div class="ctrl"><label>Breakdown rows</label><select id="showTopNSel"><option value="6">Top 6</option><option value="8" selected>Top 8</option><option value="12">Top 12</option><option value="999">All</option></select></div>
   </div>
   <div class="threegrid">
     <div class="card"><h3>Show Rate overall theo ngày</h3><div class="chartbox"><canvas id="showOverall"></canvas></div><div class="note">Tỷ lệ impressions / matched requests. Overall luôn dùng toàn bộ traffic trong cửa sổ đang chọn; rê chuột để xem số chính xác.</div></div>
-    <div class="card"><h3 id="showBreakdownTitle">Show Rate breakdown</h3><div class="chartbox"><canvas id="showBreakdown"></canvas></div><div class="note" id="showBreakdownNote">So sánh App A vs App B theo dimension đang chọn.</div></div>
-    <div class="card"><h3 id="showEffectTitle">Show Rate effect · B − A <span class="effectHint">0 = ngang nhau</span></h3><div class="chartbox"><canvas id="showEffect"></canvas></div><div class="note" id="showEffectNote">Cột dương = EMI Calculator cao hơn; cột âm = thấp hơn. Với rate, effect là chênh lệch điểm % (percentage points).</div></div>
+    <div class="card"><h3 id="showBreakdownTitle">Show Rate breakdown · Ad Format</h3><div class="chartbox"><canvas id="showBreakdown"></canvas></div><div class="note" id="showBreakdownNote">Mặc định so sánh theo Ad Format. Chọn một format để mở slicer Ad Unit tương ứng.</div></div>
   </div>
 </section>
 
 <section class="metricSection" id="section_ctr">
   <div class="metricHead"><h2>2.4 · CTR</h2><div class="metricHeadline" id="ctrHeadline"></div></div>
   <div class="metricToolbar">
-    <div class="ctrl"><label>Breakdown by</label><select id="ctrLevelSel"><option value="format">Ad Format</option><option value="unit">Ad Unit</option></select></div>
-    <div class="ctrl"><label id="ctrSegmentLabel">Ad Format slicer</label><select id="ctrSegmentSel"><option value="__ALL__">All Ad Formats</option></select></div>
-    <div class="ctrl"><label>Breakdown rows</label><select id="ctrTopNSel"><option value="6">Top 6 effect</option><option value="8" selected>Top 8 effect</option><option value="12">Top 12 effect</option><option value="999">All</option></select></div>
+    <div class="ctrl"><label>1 · Ad Format</label><select id="ctrFormatSel"><option value="__ALL__">All Ad Formats</option></select></div>
+    <div class="ctrl"><label>2 · Ad Unit</label><select id="ctrUnitSel" disabled><option value="__ALL__">Chọn Ad Format trước</option></select></div>
+    <div class="ctrl"><label>Breakdown rows</label><select id="ctrTopNSel"><option value="6">Top 6</option><option value="8" selected>Top 8</option><option value="12">Top 12</option><option value="999">All</option></select></div>
   </div>
   <div class="threegrid">
     <div class="card"><h3>CTR overall theo ngày</h3><div class="chartbox"><canvas id="ctrOverall"></canvas></div><div class="note">Tỷ lệ clicks / impressions. Overall luôn dùng toàn bộ traffic trong cửa sổ đang chọn; rê chuột để xem số chính xác.</div></div>
-    <div class="card"><h3 id="ctrBreakdownTitle">CTR breakdown</h3><div class="chartbox"><canvas id="ctrBreakdown"></canvas></div><div class="note" id="ctrBreakdownNote">So sánh App A vs App B theo dimension đang chọn.</div></div>
-    <div class="card"><h3 id="ctrEffectTitle">CTR effect · B − A <span class="effectHint">0 = ngang nhau</span></h3><div class="chartbox"><canvas id="ctrEffect"></canvas></div><div class="note" id="ctrEffectNote">Cột dương = EMI Calculator cao hơn; cột âm = thấp hơn. Với rate, effect là chênh lệch điểm % (percentage points).</div></div>
+    <div class="card"><h3 id="ctrBreakdownTitle">CTR breakdown · Ad Format</h3><div class="chartbox"><canvas id="ctrBreakdown"></canvas></div><div class="note" id="ctrBreakdownNote">Mặc định so sánh theo Ad Format. Chọn một format để mở slicer Ad Unit tương ứng.</div></div>
   </div>
 </section>
 
-<h2>3 · Công thức & data coverage</h2>
+
+<h2>3 · IMPDAU & Earning Share Analysis <span class="muted-h">— Overall → Ad Format → Ad Unit</span></h2>
+<div class="note">Bảng này dùng cùng <b>common valid DAU days</b> với report. <b>IMPDAU contribution</b> của từng format/unit = impressions của layer ÷ user-days cấp app; vì vậy tổng IMPDAU các format sẽ khớp IMPDAU overall. <b>Earning Share</b> = earnings của layer ÷ total earnings của app.</div>
+<div class="impToolbar">
+  <div class="ctrl"><label>1 · Ad Format để mở Ad Unit</label><select id="impFormatSel"><option value="__ALL__">All Ad Formats · chỉ xem Overall + Format</option></select></div>
+  <div class="ctrl"><label>2 · Ad Unit</label><select id="impUnitSel" disabled><option value="__ALL__">Chọn Ad Format trước</option></select></div>
+</div>
+<div class="impInsight" id="impInsight"></div>
+<div class="card full">
+  <div class="tablewrap"><table class="impTable"><thead><tr>
+    <th>Layer</th><th>Format / Ad Unit</th>
+    <th>IMPDAU · App A</th><th>IMPDAU · App B</th><th>Δ IMPDAU</th><th>Δ %</th>
+    <th>Earnings · A</th><th>Earning Share · A</th>
+    <th>Earnings · B</th><th>Earning Share · B</th><th>Δ Share</th><th>Status</th>
+  </tr></thead><tbody id="impShareBody"></tbody></table></div>
+  <div class="note">Format rows: Earning Share là % total app earnings. Unit rows: số lớn vẫn là % total app earnings; dòng nhỏ bên dưới cho biết unit chiếm bao nhiêu % earnings của <b>format cha</b>. Với unit chỉ xuất hiện ở một app, bảng giữ contribution = 0 ở app còn lại nhưng gắn trạng thái Only A / Only B để tránh hiểu nhầm coverage.</div>
+</div>
+
+<h2>4 · Công thức & data coverage</h2>
 <div class="grid">
  <div class="card"><h3>Weighted metric definitions</h3><div class="formula"><span><code>ARPDAU = Σ earnings / Σ DAU</code></span><span><code>IMPDAU = Σ impressions / Σ DAU</code></span><span><code>eCPM = Σ earnings / Σ impressions × 1000</code></span><span><code>Match = Σ matched / Σ requests</code></span><span><code>Show = Σ impressions / Σ matched</code></span><span><code>CTR = Σ clicks / Σ impressions</code></span></div><div class="note">Tất cả rate được tính lại từ numerator/denominator gốc để tránh sai lệch do trung bình các tỷ lệ theo dòng.</div></div>
  <div class="card"><h3>Source coverage</h3><div id="sourceCoverage"></div></div>
@@ -172,61 +190,120 @@ function renderQualityCharts(a,b,dates){let m=$('metricSel').value,cfg=metricCfg
 function renderBreakdownTable(rows,m,level,totalDays,segment){$('dimensionHead').textContent=segmentName(level);$('aHead').textContent=APP_A;$('bHead').textContent=APP_B;let bl=basisLabel(m);$('basisAHead').textContent=bl+' A';$('basisBHead').textContent=bl+' B';$('tableTitle').textContent=metricCfg[m].label+' breakdown table · '+(segment==='__ALL__'?segmentName(level):segment);$('tableNote').innerHTML=`Xếp theo <b>|effect|</b>. Traffic basis của <b>${metricCfg[m].label}</b> = <b>${bl}</b>. Traffic share tính trên tổng ${bl.toLowerCase()} của các row đang xét. Visual effect chuẩn hóa theo |Δ| lớn nhất trong bảng.`;let maxAbs=Math.max(...rows.filter(x=>x.diff!=null).map(x=>Math.abs(x.diff)),0);$('breakdownBody').innerHTML=rows.map((x,i)=>{let w=x.diff==null||!maxAbs?0:Math.min(50,Math.abs(x.diff)/maxAbs*50);let cl=x.diff>0?'posbar':'negbar';let title=x.diff==null?'Not comparable: one app has no source rows':`${APP_B} − ${APP_A} = ${fmtMetric(m,x.diff)} (${x.rel==null?'—':(x.rel>=0?'+':'')+fmtNum(x.rel,1)+'%'})`;let statusClass=x.status==='Comparable'?'ok':'warn';let cov=`${x.datesA}/${totalDays}d · ${x.datesB}/${totalDays}d`;return `<tr><td><b>${x.key}</b><span class="tableSub">${cov}</span></td><td><span class="rankpill">#${i+1}</span></td><td>${fmtMetric(m,x.av)}</td><td>${fmtMetric(m,x.bv)}</td><td class="${deltaClass(x.diff)}"><b>${x.diff==null?'—':(x.diff>=0?'+':'')+fmtMetric(m,x.diff)}</b></td><td class="${deltaClass(x.rel)}">${x.rel==null?'—':(x.rel>=0?'+':'')+fmtNum(x.rel,1)+'%'}</td><td class="effectCell"><div class="effectOuter" title="${title}"><div class="effectMid"></div>${x.diff==null?'':`<div class="effectBar ${cl}" style="width:${w}%"></div>`}</div><div class="effectLabel">${title}</div></td><td class="basisCell" title="${APP_A} ${bl}: ${fmtNum(x.basisA,0)}">${compact(x.basisA)}</td><td class="basisCell" title="${APP_B} ${bl}: ${fmtNum(x.basisB,0)}">${compact(x.basisB)}</td><td class="shareCell"><b>${fmtNum(x.share,1)}%</b><div class="shareTrack" title="Traffic share ${fmtNum(x.share,2)}%"><div class="shareFill" style="width:${Math.min(100,x.share)}%"></div></div></td><td><span class="statuspill ${statusClass}">${x.status}</span></td></tr>`}).join('')||'<tr><td colspan="11">No data</td></tr>'}
 
 function metricControlId(m,suffix){return m+suffix}
-function updateMetricSlicer(dates,m){
-  let level=$(metricControlId(m,'LevelSel')).value, el=$(metricControlId(m,'SegmentSel')), current=el.value;
-  let vals=[...new Set(RAW.filter(r=>dates.has(r.date)).map(r=>level==='format'?r.format:r.unit).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  $(metricControlId(m,'SegmentLabel')).textContent=segmentName(level)+' slicer';
-  el.innerHTML=`<option value="__ALL__">All ${level==='format'?'Ad Formats':'Ad Units'}</option>`+vals.map(v=>`<option value="${String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${v}</option>`).join('');
-  el.value=vals.includes(current)?current:'__ALL__';
+function escOpt(v){return String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function updateMetricFilters(dates,m){
+  const formatEl=$(m+'FormatSel'),unitEl=$(m+'UnitSel');
+  const prevFormat=formatEl.value||'__ALL__',prevUnit=unitEl.value||'__ALL__';
+  const scoped=RAW.filter(r=>dates.has(r.date));
+  const formats=[...new Set(scoped.map(r=>r.format).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  formatEl.innerHTML='<option value="__ALL__">All Ad Formats</option>'+formats.map(v=>`<option value="${escOpt(v)}">${v}</option>`).join('');
+  formatEl.value=formats.includes(prevFormat)?prevFormat:'__ALL__';
+  if(formatEl.value==='__ALL__'){
+    unitEl.disabled=true;unitEl.innerHTML='<option value="__ALL__">Chọn Ad Format trước</option>';unitEl.value='__ALL__';return;
+  }
+  const units=[...new Set(scoped.filter(r=>r.format===formatEl.value).map(r=>r.unit).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  unitEl.disabled=false;
+  unitEl.innerHTML='<option value="__ALL__">All units in '+escOpt(formatEl.value)+'</option>'+units.map(v=>`<option value="${escOpt(v)}">${v}</option>`).join('');
+  unitEl.value=units.includes(prevUnit)?prevUnit:'__ALL__';
 }
+
 function fmtEffect(metric,v){
   if(v==null||!isFinite(v))return '—';
   if(metric==='ecpm')return (v>=0?'+':'')+'$'+fmtNum(v,2);
   return (v>=0?'+':'')+fmtNum(v,2)+' pp';
 }
 function renderMetricHeadline(m,a,b){
-  let av=rateValue(m,a),bv=rateValue(m,b),rel=pctDelta(bv,av),abs=(av!=null&&bv!=null)?bv-av:null;
-  $(m+'Headline').innerHTML=`<b>${APP_A}</b> ${fmtMetric(m,av)} &nbsp;→&nbsp; <b>${APP_B}</b> ${fmtMetric(m,bv)} &nbsp;·&nbsp; Effect <b class="${deltaClass(abs)}">${fmtEffect(m,abs)}</b> &nbsp;·&nbsp; B vs A <b class="${deltaClass(rel)}">${rel==null?'—':(rel>=0?'+':'')+fmtNum(rel,1)+'%'}</b>`;
+  let av=rateValue(m,a),bv=rateValue(m,b),rel=pctDelta(bv,av);
+  $(m+'Headline').innerHTML=`<b>${APP_A}</b> ${fmtMetric(m,av)} &nbsp;→&nbsp; <b>${APP_B}</b> ${fmtMetric(m,bv)} &nbsp;·&nbsp; B vs A <b class="${deltaClass(rel)}">${rel==null?'—':(rel>=0?'+':'')+fmtNum(rel,1)+'%'}</b>`;
 }
+
 function renderMetricOverall(m,a,b){
   let labels=a.daily.map(d=>d.date), mapB=Object.fromEntries(b.daily.map(d=>[d.date,d])), va=labels.map(d=>metricDaily(m,a.daily.find(x=>x.date===d))), vb=labels.map(d=>mapB[d]?metricDaily(m,mapB[d]):null), ff=v=>fmtMetric(m,v);
   destroy(m+'Overall');
   charts[m+'Overall']=new Chart($(m+'Overall'),{type:'line',data:{labels,datasets:[{label:APP_A,data:va,borderColor:C.blue,backgroundColor:C.blue,pointRadius:2,tension:.18,spanGaps:false},{label:APP_B,data:vb,borderColor:C.orange,backgroundColor:C.orange,pointRadius:2,tension:.18,spanGaps:false}]},options:chartOpts(ff)});
 }
-function renderMetricBreakdown(m,dates){
-  let level=$(m+'LevelSel').value,segment=$(m+'SegmentSel').value,top=+$(m+'TopNSel').value,cfg=metricCfg[m],ff=v=>fmtMetric(m,v);
-  let all=breakdown(level,m,dates,segment),bd=all.slice(0,top),segText=segment==='__ALL__'?`All ${level==='format'?'Ad Formats':'Ad Units'}`:segment;
-  $(m+'BreakdownTitle').textContent=cfg.label+' breakdown · '+segmentName(level)+' · '+segText;
-  $(m+'BreakdownNote').innerHTML=segment==='__ALL__'?`Grouped comparison theo <b>${segmentName(level)}</b>, xếp theo |effect|. Nếu một app không có segment, bar để trống thay vì coi là 0.`:`Đang lọc <b>${segmentName(level)} = ${segment}</b>. Slicer này chỉ áp dụng cho Breakdown + Effect của ${cfg.label}.`;
-  destroy(m+'Breakdown');
-  let horizontal=level==='unit'&&bd.length>5;
-  let base=chartOpts(ff);
-  charts[m+'Breakdown']=new Chart($(m+'Breakdown'),{type:'bar',data:{labels:bd.map(x=>x.key),datasets:[{label:APP_A,data:bd.map(x=>x.av),backgroundColor:C.blue},{label:APP_B,data:bd.map(x=>x.bv),backgroundColor:C.orange}]},options:{...base,indexAxis:horizontal?'y':'x',interaction:{mode:'nearest',intersect:true},plugins:{legend:{labels:{color:C.text,usePointStyle:true}},tooltip:{...tooltipDefaults,callbacks:{label:(ctx)=>`${ctx.dataset.label}: ${ff(ctx.parsed[horizontal?'x':'y'])}`}}},scales:horizontal?{x:{beginAtZero:true,ticks:{color:C.text,callback:ff},grid:{color:'rgba(43,55,70,.55)'}},y:{ticks:{color:C.text,autoSkip:false},grid:{color:'rgba(43,55,70,.25)'}}}:base.scales}});
-
-  $(m+'EffectTitle').innerHTML=cfg.label+' effect · B − A <span class="effectHint">'+segmentName(level)+'</span>';
-  $(m+'EffectNote').innerHTML=m==='ecpm'?'Effect là chênh lệch eCPM tuyệt đối. Cột dương = EMI Calculator cao hơn; rê chuột để xem App A, App B, Δ và Δ%.':'Effect là chênh lệch <b>điểm %</b> (percentage points), không phải % thay đổi tương đối. Cột dương = EMI Calculator cao hơn.';
-  destroy(m+'Effect');
-  let effectRows=bd.filter(x=>x.diff!=null);
-  let ef=v=>m==='ecpm'?'$'+fmtNum(v,2):fmtNum(v,2)+' pp';
-  charts[m+'Effect']=new Chart($(m+'Effect'),{type:'bar',data:{labels:effectRows.map(x=>x.key),datasets:[{label:'Effect B − A',data:effectRows.map(x=>x.diff),backgroundColor:effectRows.map(x=>x.diff>=0?C.green:C.red),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'nearest',intersect:true},plugins:{legend:{display:false},tooltip:{...tooltipDefaults,callbacks:{label:(ctx)=>`Effect B − A: ${fmtEffect(m,ctx.raw)}`,afterBody:(items)=>{let i=items[0].dataIndex,x=effectRows[i];return [`${APP_A}: ${fmtMetric(m,x.av)}`,`${APP_B}: ${fmtMetric(m,x.bv)}`,`Relative Δ: ${x.rel==null?'—':(x.rel>=0?'+':'')+fmtNum(x.rel,1)+'%'}`]}}}},scales:{x:{ticks:{color:C.text,maxRotation:60,minRotation:0,autoSkip:false},grid:{color:'rgba(43,55,70,.20)'}},y:{beginAtZero:true,ticks:{color:C.text,callback:ef},grid:{color:'rgba(43,55,70,.55)'}}}}});
+function metricBreakdownRows(m,dates,format,unit){
+  const bk=basisKey(m);
+  let dimension='format',keys=[],baseRows=RAW.filter(r=>dates.has(r.date));
+  if(format==='__ALL__'){
+    dimension='format';keys=[...new Set(baseRows.map(r=>r.format).filter(Boolean))];
+  }else{
+    baseRows=baseRows.filter(r=>r.format===format);dimension='unit';
+    keys=unit==='__ALL__'?[...new Set(baseRows.map(r=>r.unit).filter(Boolean))]:[unit];
+  }
+  let out=[];
+  for(const key of keys){
+    let vals={};
+    for(const app of allApps()){
+      let rr=baseRows.filter(r=>r.app===app && (dimension==='format'?r.format:r.unit)===key);
+      if(!rr.length){vals[app]=null;continue}
+      let ag=aggregateRows(rr); vals[app]={value:rateValue(m,ag),basis:n(ag[bk])};
+    }
+    let av=vals[APP_A]?.value??null,bv=vals[APP_B]?.value??null;
+    let diff=(av!=null&&bv!=null)?bv-av:null;
+    out.push({key,av,bv,diff,basis:(vals[APP_A]?.basis||0)+(vals[APP_B]?.basis||0)});
+  }
+  out.sort((x,y)=>(y.basis-x.basis)||((Math.abs(y.diff||0))-(Math.abs(x.diff||0))));
+  return {dimension,rows:out};
 }
+function renderMetricBreakdown(m,dates){
+  const format=$(m+'FormatSel').value,unit=$(m+'UnitSel').value,top=+$(m+'TopNSel').value,cfg=metricCfg[m],ff=v=>fmtMetric(m,v);
+  const result=metricBreakdownRows(m,dates,format,unit),bd=result.rows.slice(0,top);
+  let scopeText=result.dimension==='format'?'All Ad Formats':(unit==='__ALL__'?`Ad Units in ${format}`:`${format} · ${unit}`);
+  $(m+'BreakdownTitle').textContent=cfg.label+' breakdown · '+scopeText;
+  $(m+'BreakdownNote').innerHTML=format==='__ALL__'?`Đang so sánh theo <b>Ad Format</b>. Chọn một format ở slicer 1 để mở slicer Ad Unit.`:(unit==='__ALL__'?`Đang hiển thị các <b>Ad Unit thuộc ${format}</b>. Chọn một unit ở slicer 2 nếu muốn isolate riêng unit đó.`:`Đang isolate <b>${unit}</b> trong format <b>${format}</b>.`);
+  destroy(m+'Breakdown');
+  let horizontal=result.dimension==='unit'&&bd.length>5,base=chartOpts(ff);
+  charts[m+'Breakdown']=new Chart($(m+'Breakdown'),{type:'bar',data:{labels:bd.map(x=>x.key),datasets:[{label:APP_A,data:bd.map(x=>x.av),backgroundColor:C.blue},{label:APP_B,data:bd.map(x=>x.bv),backgroundColor:C.orange}]},options:{...base,indexAxis:horizontal?'y':'x',interaction:{mode:'nearest',intersect:true},plugins:{legend:{labels:{color:C.text,usePointStyle:true}},tooltip:{...tooltipDefaults,callbacks:{label:(ctx)=>`${ctx.dataset.label}: ${ff(ctx.parsed[horizontal?'x':'y'])}`}}},scales:horizontal?{x:{beginAtZero:true,ticks:{color:C.text,callback:ff},grid:{color:'rgba(43,55,70,.55)'}},y:{ticks:{color:C.text,autoSkip:false},grid:{color:'rgba(43,55,70,.25)'}}}:base.scales}});
+}
+
 function renderAllMetricSections(a,b,dates){
   for(const m of Object.keys(metricCfg)){
-    updateMetricSlicer(dates,m);
+    updateMetricFilters(dates,m);
     renderMetricHeadline(m,a,b);
     renderMetricOverall(m,a,b);
     renderMetricBreakdown(m,dates);
   }
 }
-function renderSummary(a,b,dates){let ar=pctDelta(b.arpdau,a.arpdau),da=pctDelta(b.avgDau,a.avgDau),im=pctDelta(b.impressions,a.impressions),ii=pctDelta(b.impdau,a.impdau),eA=rateValue('ecpm',a),eB=rateValue('ecpm',b),ed=pctDelta(eB,eA);let lead=ar>0?APP_B:APP_A;$('summary').innerHTML=`<b>Executive read · ${dates.size} common valid days</b><ul><li><b>${lead}</b> có ARPDAU cao hơn trong cửa sổ đang chọn. B vs A: <b class="${deltaClass(ar)}">${ar>=0?'+':''}${fmtNum(ar,1)}%</b> (${fmtMoney(a.arpdau,5)} → ${fmtMoney(b.arpdau,5)}).</li><li>Avg DAU B vs A: <b class="${deltaClass(da)}">${da>=0?'+':''}${fmtNum(da,1)}%</b>; total impressions: <b class="${deltaClass(im)}">${im>=0?'+':''}${fmtNum(im,1)}%</b>; IMPDAU: <b class="${deltaClass(ii)}">${ii>=0?'+':''}${fmtNum(ii,1)}%</b>.</li><li>eCPM B vs A: <b class="${deltaClass(ed)}">${ed>=0?'+':''}${fmtNum(ed,1)}%</b>. Xem 4 section quality bên dưới để tách riêng eCPM, Match Rate, Show Rate và CTR; mỗi section có Overall, Breakdown và Effect theo format/unit.</li></ul>`}
+
+function impFormatOptions(dates){return [...new Set(RAW.filter(r=>dates.has(r.date)).map(r=>r.format).filter(Boolean))].sort((a,b)=>a.localeCompare(b))}
+function impUnitOptions(dates,format){return [...new Set(RAW.filter(r=>dates.has(r.date)&&r.format===format).map(r=>r.unit).filter(Boolean))].sort((a,b)=>a.localeCompare(b))}
+function updateImpFilters(dates){
+  const f=$('impFormatSel'),u=$('impUnitSel'),curF=f.value,curU=u.value,formats=impFormatOptions(dates);
+  f.innerHTML='<option value="__ALL__">All Ad Formats · chỉ xem Overall + Format</option>'+formats.map(x=>`<option value="${String(x).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${x}</option>`).join('');
+  f.value=formats.includes(curF)?curF:'__ALL__';
+  if(f.value==='__ALL__'){u.disabled=true;u.innerHTML='<option value="__ALL__">Chọn Ad Format trước</option>';u.value='__ALL__';return}
+  const units=impUnitOptions(dates,f.value);u.disabled=false;u.innerHTML=`<option value="__ALL__">All Ad Units in ${f.value}</option>`+units.map(x=>`<option value="${String(x).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${x}</option>`).join('');u.value=units.includes(curU)?curU:'__ALL__';
+}
+function segmentAgg(app,dates,pred){const rr=rowsFor(app,dates).filter(pred);return {rows:rr.length,earnings:sum(rr,'earnings'),impressions:sum(rr,'impressions')}}
+function impContributionRows(a,b,dates){
+  const totalA={earnings:a.earnings,userdays:a.userdays},totalB={earnings:b.earnings,userdays:b.userdays};
+  const make=(layer,key,pred,parentPred=null)=>{const A=segmentAgg(APP_A,dates,pred),B=segmentAgg(APP_B,dates,pred),ai=totalA.userdays?A.impressions/totalA.userdays:0,bi=totalB.userdays?B.impressions/totalB.userdays:0,as=totalA.earnings?A.earnings/totalA.earnings*100:0,bs=totalB.earnings?B.earnings/totalB.earnings*100:0;let ap=null,bp=null;if(parentPred){const PA=segmentAgg(APP_A,dates,parentPred),PB=segmentAgg(APP_B,dates,parentPred);ap=PA.earnings?A.earnings/PA.earnings*100:0;bp=PB.earnings?B.earnings/PB.earnings*100:0}return {layer,key,ai,bi,diff:bi-ai,rel:ai?((bi/ai)-1)*100:null,ae:A.earnings,be:B.earnings,as,bs,shareDiff:bs-as,parentA:ap,parentB:bp,hasA:A.rows>0,hasB:B.rows>0}}
+  const rows=[{layer:'overall',key:'All monetization',ai:a.impdau,bi:b.impdau,diff:b.impdau-a.impdau,rel:a.impdau?((b.impdau/a.impdau)-1)*100:null,ae:a.earnings,be:b.earnings,as:100,bs:100,shareDiff:0,parentA:null,parentB:null,hasA:true,hasB:true}];
+  const formats=impFormatOptions(dates);for(const f of formats)rows.push(make('format',f,r=>r.format===f));
+  const selectedF=$('impFormatSel').value,selectedU=$('impUnitSel').value;if(selectedF!=='__ALL__'){let units=impUnitOptions(dates,selectedF);if(selectedU!=='__ALL__')units=units.filter(x=>x===selectedU);for(const u of units)rows.push(make('unit',u,r=>r.format===selectedF&&r.unit===u,r=>r.format===selectedF))}
+  return rows;
+}
+function shareCell(pct,parentPct,appClass){let w=Math.max(0,Math.min(100,pct||0));return `<div class="shareBox" title="${fmtNum(pct,2)}% of total app earnings${parentPct==null?'':` · ${fmtNum(parentPct,2)}% of parent format`}"><div class="shareMain"><b>${fmtNum(pct,1)}%</b></div><div class="shareTrack2"><div class="${appClass}" style="width:${w}%"></div></div>${parentPct==null?'':`<div class="shareSub">${fmtNum(parentPct,1)}% of format</div>`}</div>`}
+function renderImpAnalysis(a,b,dates){
+  updateImpFilters(dates);const rows=impContributionRows(a,b,dates),body=$('impShareBody');
+  const formats=rows.filter(x=>x.layer==='format'),units=rows.filter(x=>x.layer==='unit');
+  formats.sort((x,y)=>(y.as+y.bs)-(x.as+x.bs));units.sort((x,y)=>(y.as+y.bs)-(x.as+x.bs));const ordered=[rows[0],...formats,...units];
+  body.innerHTML=ordered.map(x=>{let tag=x.layer==='overall'?'Overall':x.layer==='format'?'Ad Format':'Ad Unit',status=x.hasA&&x.hasB?'Comparable':x.hasA?'Only A':'Only B',sc=status==='Comparable'?'ok':'warn',name=x.layer==='unit'?`<span class="u">${x.key}</span>`:`<b>${x.key}</b>`,deltaPct=x.rel==null?'—':(x.rel>=0?'+':'')+fmtNum(x.rel,1)+'%';return `<tr><td><span class="layerTag ${x.layer}">${tag}</span></td><td class="${x.layer==='unit'?'indentUnit':''}">${name}</td><td>${fmtNum(x.ai,3)}</td><td>${fmtNum(x.bi,3)}</td><td class="${deltaClass(x.diff)}"><b>${x.diff>=0?'+':''}${fmtNum(x.diff,3)}</b></td><td class="${deltaClass(x.rel)}">${deltaPct}</td><td>${fmtMoney(x.ae,2)}</td><td>${shareCell(x.as,x.parentA,'shareFillA')}</td><td>${fmtMoney(x.be,2)}</td><td>${shareCell(x.bs,x.parentB,'shareFillB')}</td><td class="shareDelta ${deltaClass(x.shareDiff)}">${x.shareDiff>=0?'+':''}${fmtNum(x.shareDiff,1)} pp</td><td><span class="statuspill ${sc}">${status}</span></td></tr>`}).join('');
+  const topFA=[...formats].sort((x,y)=>y.as-x.as)[0],topFB=[...formats].sort((x,y)=>y.bs-x.bs)[0],selF=$('impFormatSel').value;let unitText='';if(selF!=='__ALL__'&&units.length){const ua=[...units].sort((x,y)=>y.as-x.as)[0],ub=[...units].sort((x,y)=>y.bs-x.bs)[0];unitText=`<br>Trong <b>${selF}</b>: unit có earning share cao nhất ở App A là <b class="u">${ua.key}</b> (${fmtNum(ua.parentA,1)}% earnings của format); ở App B là <b class="u">${ub.key}</b> (${fmtNum(ub.parentB,1)}%).`}
+  $('impInsight').innerHTML=`<b>IMPDAU overall:</b> ${APP_A} <b>${fmtNum(a.impdau,3)}</b> → ${APP_B} <b>${fmtNum(b.impdau,3)}</b> · B vs A <b class="${deltaClass(pctDelta(b.impdau,a.impdau))}">${pctDelta(b.impdau,a.impdau)>=0?'+':''}${fmtNum(pctDelta(b.impdau,a.impdau),1)}%</b>.<br><b>Top earning format:</b> App A = <b>${topFA?.key||'—'}</b> (${topFA?fmtNum(topFA.as,1):'—'}% total earnings); App B = <b>${topFB?.key||'—'}</b> (${topFB?fmtNum(topFB.bs,1):'—'}%).${unitText}`;
+}
+function renderSummary(a,b,dates){let ar=pctDelta(b.arpdau,a.arpdau),da=pctDelta(b.avgDau,a.avgDau),im=pctDelta(b.impressions,a.impressions),ii=pctDelta(b.impdau,a.impdau),eA=rateValue('ecpm',a),eB=rateValue('ecpm',b),ed=pctDelta(eB,eA);let lead=ar>0?APP_B:APP_A;$('summary').innerHTML=`<b>Executive read · ${dates.size} common valid days</b><ul><li><b>${lead}</b> có ARPDAU cao hơn trong cửa sổ đang chọn. B vs A: <b class="${deltaClass(ar)}">${ar>=0?'+':''}${fmtNum(ar,1)}%</b> (${fmtMoney(a.arpdau,5)} → ${fmtMoney(b.arpdau,5)}).</li><li>Avg DAU B vs A: <b class="${deltaClass(da)}">${da>=0?'+':''}${fmtNum(da,1)}%</b>; total impressions: <b class="${deltaClass(im)}">${im>=0?'+':''}${fmtNum(im,1)}%</b>; IMPDAU: <b class="${deltaClass(ii)}">${ii>=0?'+':''}${fmtNum(ii,1)}%</b>.</li><li>eCPM B vs A: <b class="${deltaClass(ed)}">${ed>=0?'+':''}${fmtNum(ed,1)}%</b>. Xem 4 section quality bên dưới để tách riêng eCPM, Match Rate, Show Rate và CTR; mỗi section có Overall và Breakdown với filter phân cấp Ad Format → Ad Unit.</li></ul>`}
 function renderCoverage(dates){let s=$('startDate').value,e=$('endDate').value;let expected=[];for(let d=new Date(s+'T00:00:00');d<=new Date(e+'T00:00:00');d.setDate(d.getDate()+1))expected.push(d.toISOString().slice(0,10));let dropped=expected.filter(x=>!dates.has(x));$('status').innerHTML=`Window <b>${s}</b> → <b>${e}</b> · common valid DAU days <b>${dates.size}/${expected.length}</b>${dropped.length?' · excluded: '+dropped.join(', '):''}`;let ia=sourceInfo(APP_A),ib=sourceInfo(APP_B);let fa=[...ia.formats].sort(),fb=[...ib.formats].sort(),formatsAligned=fa.length===fb.length&&fa.every((x,i)=>x===fb[i]);$('coverageNotice').innerHTML=formatsAligned?`<b>✓ Format coverage aligned:</b> cả <b>${APP_A}</b> và <b>${APP_B}</b> đều có <b>${fa.join(', ')}</b>. So sánh overall và breakdown theo Ad Format hiện dùng cùng nhóm format trong source. Ad Unit có thể khác nhau giữa hai app và bảng breakdown sẽ đánh dấu trạng thái comparable.`:`<b>Coverage caution:</b> <b>${APP_A}</b> có <b>${fa.join(', ')}</b>, còn <b>${APP_B}</b> có <b>${fb.join(', ')}</b>. Overall phản ánh đúng các row được export; nên kiểm tra coverage trước khi kết luận apples-to-apples.`;$('sourceCoverage').innerHTML=`<div style="line-height:1.8"><span class="aBadge badge">${APP_A}</span> · ${ia.rows} rows · ${ia.dates.length} dates · ${ia.formats.length} formats · ${ia.units.length} units · missing DAU dates: ${ia.missing.length?ia.missing.join(', '):'none'}<br><span class="bBadge badge">${APP_B}</span> · ${ib.rows} rows · ${ib.dates.length} dates · ${ib.formats.length} formats · ${ib.units.length} units · missing DAU dates: ${ib.missing.length?ib.missing.join(', '):'none'}</div>`}
-function render(){let sc=scope();renderCoverage(sc.dates);if(!sc.dates.size){$('summary').innerHTML='<b>No common valid DAU dates in selected range.</b>';return}renderSummary(sc.a,sc.b,sc.dates);renderOverviewKpis(sc.a,sc.b);renderOverviewTrend(sc.a,sc.b);renderAllMetricSections(sc.a,sc.b,sc.dates)}
+function render(){let sc=scope();renderCoverage(sc.dates);if(!sc.dates.size){$('summary').innerHTML='<b>No common valid DAU dates in selected range.</b>';return}renderSummary(sc.a,sc.b,sc.dates);renderOverviewKpis(sc.a,sc.b);renderOverviewTrend(sc.a,sc.b);renderAllMetricSections(sc.a,sc.b,sc.dates);renderImpAnalysis(sc.a,sc.b,sc.dates)}
 $('appALabel').textContent=APP_A;$('appBLabel').textContent=APP_B;
 ['startDate','endDate','overviewMetricSel'].forEach(id=>$(id).addEventListener('change',render));
 for(const m of Object.keys(metricCfg)){
-  $(m+'SegmentSel').addEventListener('change',render);
+  $(m+'FormatSel').addEventListener('change',()=>{$(m+'UnitSel').value='__ALL__';render()});
+  $(m+'UnitSel').addEventListener('change',render);
   $(m+'TopNSel').addEventListener('change',render);
-  $(m+'LevelSel').addEventListener('change',()=>{$(m+'SegmentSel').value='__ALL__';render()});
 }
+$('impFormatSel').addEventListener('change',()=>{$('impUnitSel').value='__ALL__';render()});
+$('impUnitSel').addEventListener('change',render);
 render();
 </script></body></html>
